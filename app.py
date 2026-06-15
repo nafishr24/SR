@@ -76,7 +76,7 @@ def rekap(df: pd.DataFrame) -> pd.DataFrame:
 # ==============================================================================
 # 5. LOAD DATA DENGAN CACHING
 # ==============================================================================
-@st.cache_data
+@st.cache_data(ttl=600)  # Cache data selama 10 menit (600 detik)
 def load_data():
     link_sheet = "https://docs.google.com/spreadsheets/d/1VX1Rk_WjyGVx3AiOlsocMRB5xRT0R8T85RP6c4j7Xh0/export?format=csv&gdid=0"
     df_raw = pd.read_csv(link_sheet)
