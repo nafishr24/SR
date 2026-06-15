@@ -154,7 +154,7 @@ try:
         st.subheader("📊 Grafik Keketatan (%) per Kota")
 
         # Membuat canvas grafik menggunakan Matplotlib & Seaborn
-        fig, ax = plt.subplots(figsize=(6, 4)) if len(data_filter.index.tolist()) < 5 else plt.subplots(figsize=(6, 12))
+        fig, ax = plt.subplots(figsize=(6, 4)) if len(data_filter.index.tolist()) < 5 else plt.subplots(figsize=(6, 6))
         sns.barplot(
             x=data_filter["persentase"],
             y=data_filter.index,
