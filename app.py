@@ -141,9 +141,9 @@ try:
     # Kolom Kiri: Tabel Data
     with col_tabel:
         st.subheader("📋 Tabel Detail Wilayah")
-        # Menampilkan data dengan gradasi warna biru pada kolom persentase
+        # Menampilkan data dengan pembulatan 2 desimal dan gradasi warna
         st.dataframe(
-            data_filter.style.background_gradient(
+            data_filter.style.format("{:.2f}", subset=["persentase"]).background_gradient(
                 cmap="magma", subset=["persentase"]
             ),
             use_container_width=True
@@ -154,7 +154,7 @@ try:
         st.subheader("📊 Grafik Keketatan (%) per Kota")
 
         # Membuat canvas grafik menggunakan Matplotlib & Seaborn
-        fig, ax = plt.subplots(figsize=(6, 4)) if len(data_filter.index.tolist()) < 5 else plt.subplots(figsize=(6, 6))
+        fig, ax = plt.subplots(figsize=(6, 4)) if len(data_filter.index.tolist()) <= 5 else plt.subplots(figsize=(6, 6))
         sns.barplot(
             x=data_filter["persentase"],
             y=data_filter.index,
