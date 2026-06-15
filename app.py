@@ -70,7 +70,7 @@ def rekap(df: pd.DataFrame) -> pd.DataFrame:
         rekap_df["pelamar"] / rekap_df["formasi"] * 100
     ).round(2)
 
-    return rekap_df
+    return rekap_df.sort_values(by="persentase", ascending=False)
 
 
 # ==============================================================================
@@ -91,7 +91,7 @@ try:
     cek = load_data()
 
     # Mengambil list nama provinsi unik dari MultiIndex level 0
-    list_provinsi = cek.index.get_level_values("provinsi").unique()
+    list_provinsi = cek.index.get_level_values("provinsi").unique().sort_values()
 
     # Membuat Sidebar untuk filter pilihan Provinsi
     st.sidebar.header("⚙️ Filter Wilayah")
@@ -144,7 +144,7 @@ try:
         # Menampilkan data dengan gradasi warna biru pada kolom persentase
         st.dataframe(
             data_filter.style.background_gradient(
-                cmap="Blues", subset=["persentase"]
+                cmap="magma", subset=["persentase"]
             ),
             use_container_width=True
         )
@@ -154,17 +154,17 @@ try:
         st.subheader("📊 Grafik Keketatan (%) per Kota")
 
         # Membuat canvas grafik menggunakan Matplotlib & Seaborn
-        fig, ax = plt.subplots(figsize=(6, 4))
+        fig, ax = plt.subplots(figsize=(6, 4)) if len(data_filter.index.tolist()) < 5 else plt.subplots(figsize=(6, 12))
         sns.barplot(
             x=data_filter["persentase"],
             y=data_filter.index,
             ax=ax,
-            palette="Blues_r",
+            palette="dark",
         )
 
         # Pengaturan label grafik
-        ax.set_xlabel("Persentase Keketatan (%)")
-        ax.set_ylabel("Kota/Kabupaten")
+        ax.set_xlabel("\nPersentase Keketatan (%)")
+        ax.set_ylabel("Kota/Kabupaten\n")
 
         # Garis bantu vertikal penanda batas kuota penuh (100%)
         ax.axvline(
